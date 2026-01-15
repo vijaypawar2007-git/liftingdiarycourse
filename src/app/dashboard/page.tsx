@@ -1,34 +1,21 @@
-'use client';
-
-import { useState } from 'react';
-import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatDate } from '@/lib/date-utils';
+import { formatDate, parseLocalDate } from '@/lib/date-utils';
+import { CalendarSelector } from '@/components/dashboard/calendar-selector';
+import { getUserWorkoutsByDate } from '@/data/workouts';
 
-// Mock workout data for UI demonstration
-const mockWorkouts = [
-  {
-    id: 1,
-    name: 'Push Day',
-    exercises: [
-      { name: 'Bench Press', sets: 4, reps: 8 },
-      { name: 'Overhead Press', sets: 3, reps: 10 },
-      { name: 'Tricep Dips', sets: 3, reps: 12 },
-    ],
-  },
-  {
-    id: 2,
-    name: 'Legs',
-    exercises: [
-      { name: 'Squats', sets: 5, reps: 5 },
-      { name: 'Romanian Deadlifts', sets: 3, reps: 10 },
-      { name: 'Leg Press', sets: 4, reps: 12 },
-    ],
-  },
-];
+interface DashboardPageProps {
+  searchParams: Promise<{ date?: string }>;
+}
 
-export default function DashboardPage() {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+export default async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const params = await searchParams;
+  const dateParam = params.date;
+
+  // Get selected date from URL or default to today
+  const selectedDate = dateParam ? parseLocalDate(dateParam) : new Date();
+
+  // Fetch workouts for the selected date
+  const workouts = await getUserWorkoutsByDate(selectedDate);
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black">
@@ -45,22 +32,7 @@ export default function DashboardPage() {
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Date Picker Section */}
           <div className="lg:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Select Date</CardTitle>
-                <CardDescription>
-                  {formatDate(selectedDate)}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex justify-center">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={(date) => date && setSelectedDate(date)}
-                  className="rounded-md border"
-                />
-              </CardContent>
-            </Card>
+            <CalendarSelector />
           </div>
 
           {/* Workouts List Section */}
@@ -71,28 +43,28 @@ export default function DashboardPage() {
               </h2>
             </div>
 
-            {mockWorkouts.length > 0 ? (
+            {workouts.length > 0 ? (
               <div className="space-y-4">
-                {mockWorkouts.map((workout) => (
+                {workouts.map((workout) => (
                   <Card key={workout.id}>
                     <CardHeader>
-                      <CardTitle>{workout.name}</CardTitle>
+                      <CardTitle>{workout.name || 'Untitled Workout'}</CardTitle>
                       <CardDescription>
-                        {workout.exercises.length} exercises
+                        {workout.workoutExercises.length} exercise{workout.workoutExercises.length !== 1 ? 's' : ''}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-3">
-                        {workout.exercises.map((exercise, index) => (
+                        {workout.workoutExercises.map((workoutExercise) => (
                           <div
-                            key={index}
+                            key={workoutExercise.id}
                             className="flex items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900"
                           >
                             <span className="font-medium text-zinc-900 dark:text-zinc-50">
-                              {exercise.name}
+                              {workoutExercise.exercise.name}
                             </span>
                             <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                              {exercise.sets} × {exercise.reps}
+                              {workoutExercise.sets.length} set{workoutExercise.sets.length !== 1 ? 's' : ''}
                             </span>
                           </div>
                         ))}

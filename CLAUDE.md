@@ -12,7 +12,10 @@ Before writing or modifying any code:
 3. Ensure your code aligns with the documented standards and practices
 4. If no relevant documentation exists, ask the user if documentation should be created
 
-The `/docs` directory contains the source of truth for how features should be implemented in this project. Never assume implementation details without consulting the relevant documentation first.
+The `/docs` directory contains the source of truth for how features should be implemented in this project. Never assume implementation details without consulting the relevant documentation first:
+
+- docs/ui.md
+- docs/data-fetching.md
 
 ## Project Overview
 
