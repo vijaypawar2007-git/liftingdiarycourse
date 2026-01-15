@@ -2,6 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## ⚠️ CRITICAL: Documentation-First Development
+
+**ALWAYS refer to the `/docs` directory FIRST before generating any code.**
+
+Before writing or modifying any code:
+1. Check if relevant documentation exists in the `/docs` directory
+2. Read and follow the patterns, examples, and guidelines provided in those docs
+3. Ensure your code aligns with the documented standards and practices
+4. If no relevant documentation exists, ask the user if documentation should be created
+
+The `/docs` directory contains the source of truth for how features should be implemented in this project. Never assume implementation details without consulting the relevant documentation first.
+
 ## Project Overview
 
 This is a lifting diary course application built with Next.js 16.1.1, React 19, TypeScript, and Tailwind CSS v4. The project uses the App Router architecture and is configured with React Compiler enabled for automatic optimization.
