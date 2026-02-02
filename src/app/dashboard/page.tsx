@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatDate, parseLocalDate } from '@/lib/date-utils';
+import { formatDate, parseLocalDate, formatLocalDate } from '@/lib/date-utils';
 import { CalendarSelector } from '@/components/dashboard/calendar-selector';
 import { getUserWorkoutsByDate } from '@/data/workouts';
 
@@ -32,7 +32,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Date Picker Section */}
           <div className="lg:col-span-1">
-            <CalendarSelector />
+            <CalendarSelector selectedDateString={formatLocalDate(selectedDate)} />
           </div>
 
           {/* Workouts List Section */}

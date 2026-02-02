@@ -1,24 +1,39 @@
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { formatDate, parseLocalDate, formatLocalDate } from '@/lib/date-utils';
+import { formatDate } from '@/lib/date-utils';
 
-export function CalendarSelector() {
+interface CalendarSelectorProps {
+  /** The currently selected date string in YYYY-MM-DD format */
+  selectedDateString: string;
+}
+
+/**
+ * Parses a YYYY-MM-DD string into a Date at midnight UTC.
+ * This matches react-day-picker's UTC timezone mode.
+ */
+function parseDateParamUTC(dateString: string): Date {
+  return new Date(dateString + 'T00:00:00.000Z');
+}
+
+export function CalendarSelector({ selectedDateString }: CalendarSelectorProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  // Get date from URL or default to today
-  const dateParam = searchParams.get('date');
-  const selectedDate = dateParam ? parseLocalDate(dateParam) : new Date();
+  // Parse the date string passed from the server component
+  const selectedDate = parseDateParamUTC(selectedDateString);
 
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
-      // Update URL with the selected date in local timezone
-      const params = new URLSearchParams(searchParams);
-      params.set('date', formatLocalDate(date));
-      router.push(`/dashboard?${params.toString()}`);
+      // react-day-picker creates dates at midnight UTC, so we need to use
+      // UTC methods to extract the actual date the user clicked on
+      const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(date.getUTCDate()).padStart(2, '0');
+      const dateString = `${year}-${month}-${day}`;
+
+      router.push(`/dashboard?date=${dateString}`);
     }
   };
 
@@ -35,6 +50,7 @@ export function CalendarSelector() {
           mode="single"
           selected={selectedDate}
           onSelect={handleDateSelect}
+          timeZone="UTC"
           className="rounded-md border"
         />
       </CardContent>
