@@ -9,6 +9,8 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeToggle } from "@/components/theme-toggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,6 +28,8 @@ export const metadata: Metadata = {
   description: "Track your lifting progress",
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,26 +37,29 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <header className="p-4 border-b">
-            <SignedOut>
-              <div className="flex gap-4">
-                <SignInButton mode="modal">
-                  <Button variant="default">Sign In</Button>
-                </SignInButton>
-                <SignUpButton mode="modal">
-                  <Button variant="outline">Sign Up</Button>
-                </SignUpButton>
+          <ThemeProvider>
+            <header className="p-4 border-b flex justify-between items-center">
+              <div className="flex gap-4 items-center">
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <Button variant="default">Sign In</Button>
+                  </SignInButton>
+                  <SignUpButton mode="modal">
+                    <Button variant="outline">Sign Up</Button>
+                  </SignUpButton>
+                </SignedOut>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
               </div>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          {children}
+              <ThemeToggle />
+            </header>
+            {children}
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

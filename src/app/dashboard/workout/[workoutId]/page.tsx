@@ -4,6 +4,8 @@ import { EditWorkoutForm } from './edit-workout-form';
 import { getUserWorkoutById } from '@/data/workouts';
 import { formatLocalDate } from '@/lib/date-utils';
 
+export const dynamic = 'force-dynamic';
+
 interface EditWorkoutPageProps {
   params: Promise<{ workoutId: string }>;
 }
