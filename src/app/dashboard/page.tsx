@@ -53,31 +53,33 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             {workouts.length > 0 ? (
               <div className="space-y-4">
                 {workouts.map((workout) => (
-                  <Card key={workout.id}>
-                    <CardHeader>
-                      <CardTitle>{workout.name || 'Untitled Workout'}</CardTitle>
-                      <CardDescription>
-                        {workout.workoutExercises.length} exercise{workout.workoutExercises.length !== 1 ? 's' : ''}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        {workout.workoutExercises.map((workoutExercise) => (
-                          <div
-                            key={workoutExercise.id}
-                            className="flex items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900"
-                          >
-                            <span className="font-medium text-zinc-900 dark:text-zinc-50">
-                              {workoutExercise.exercise.name}
-                            </span>
-                            <span className="text-sm text-zinc-600 dark:text-zinc-400">
-                              {workoutExercise.sets.length} set{workoutExercise.sets.length !== 1 ? 's' : ''}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+                  <Link key={workout.id} href={`/dashboard/workout/${workout.id}`} className="block">
+                    <Card className="transition-colors hover:border-zinc-400 dark:hover:border-zinc-600">
+                      <CardHeader>
+                        <CardTitle>{workout.name || 'Untitled Workout'}</CardTitle>
+                        <CardDescription>
+                          {workout.workoutExercises.length} exercise{workout.workoutExercises.length !== 1 ? 's' : ''}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          {workout.workoutExercises.map((workoutExercise) => (
+                            <div
+                              key={workoutExercise.id}
+                              className="flex items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-800 dark:bg-zinc-900"
+                            >
+                              <span className="font-medium text-zinc-900 dark:text-zinc-50">
+                                {workoutExercise.exercise.name}
+                              </span>
+                              <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                                {workoutExercise.sets.length} set{workoutExercise.sets.length !== 1 ? 's' : ''}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
                 ))}
               </div>
             ) : (
@@ -90,11 +92,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                     <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                       Start by adding your first workout for this date
                     </p>
-                    <Button asChild className="mt-4">
-                      <Link href={`/dashboard/workout/new?date=${formatLocalDate(selectedDate)}`}>
-                        Create New Workout
-                      </Link>
-                    </Button>
                   </div>
                 </CardContent>
               </Card>

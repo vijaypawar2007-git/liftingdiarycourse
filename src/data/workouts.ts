@@ -93,3 +93,52 @@ export async function createWorkoutForUser(
 
   return result[0];
 }
+
+/**
+ * Get a single workout by ID for the currently authenticated user
+ * @param workoutId - The workout ID to fetch
+ */
+export async function getUserWorkoutById(workoutId: string) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error('Unauthorized');
+  }
+
+  const result = await db.query.workouts.findFirst({
+    where: and(eq(workouts.id, workoutId), eq(workouts.userId, userId)),
+    with: {
+      workoutExercises: {
+        with: {
+          exercise: true,
+          sets: {
+            orderBy: (sets, { asc }) => [asc(sets.setNumber)],
+          },
+        },
+        orderBy: (workoutExercises, { asc }) => [asc(workoutExercises.order)],
+      },
+    },
+  });
+
+  return result;
+}
+
+/**
+ * Update an existing workout for a user
+ * @param userId - The user ID (for authorization)
+ * @param workoutId - The workout ID to update
+ * @param data - The workout data to update
+ */
+export async function updateWorkoutForUser(
+  userId: string,
+  workoutId: string,
+  data: { name?: string; startedAt?: Date }
+) {
+  const result = await db
+    .update(workouts)
+    .set(data)
+    .where(and(eq(workouts.id, workoutId), eq(workouts.userId, userId)))
+    .returning();
+
+  return result[0];
+}
