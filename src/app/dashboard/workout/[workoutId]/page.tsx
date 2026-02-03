@@ -17,7 +17,7 @@ export default async function EditWorkoutPage({ params }: EditWorkoutPageProps) 
     notFound();
   }
 
-  const dateString = formatLocalDate(workout.startedAt);
+  const dateString = formatLocalDate(workout.startedAt ?? new Date());
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black">
@@ -41,7 +41,7 @@ export default async function EditWorkoutPage({ params }: EditWorkoutPageProps) 
           <CardContent>
             <EditWorkoutForm
               workoutId={workout.id}
-              defaultName={workout.name}
+              defaultName={workout.name ?? ''}
               defaultDate={dateString}
             />
           </CardContent>
