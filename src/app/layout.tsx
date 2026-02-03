@@ -26,6 +26,9 @@ export const metadata: Metadata = {
   description: "Track your lifting progress",
 };
 
+// Force dynamic rendering since the layout uses authentication components
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: Readonly<{

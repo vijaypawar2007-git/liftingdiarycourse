@@ -4,6 +4,9 @@ import { EditWorkoutForm } from './edit-workout-form';
 import { getUserWorkoutById } from '@/data/workouts';
 import { formatLocalDate } from '@/lib/date-utils';
 
+// Force dynamic rendering - this page requires authentication and database access
+export const dynamic = 'force-dynamic';
+
 interface EditWorkoutPageProps {
   params: Promise<{ workoutId: string }>;
 }

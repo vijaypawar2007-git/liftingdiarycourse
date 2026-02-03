@@ -5,6 +5,9 @@ import { formatDate, parseLocalDate, formatLocalDate } from '@/lib/date-utils';
 import { CalendarSelector } from '@/components/dashboard/calendar-selector';
 import { getUserWorkoutsByDate } from '@/data/workouts';
 
+// Force dynamic rendering - this page requires authentication and database access
+export const dynamic = 'force-dynamic';
+
 interface DashboardPageProps {
   searchParams: Promise<{ date?: string }>;
 }
