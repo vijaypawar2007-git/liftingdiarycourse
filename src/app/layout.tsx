@@ -8,6 +8,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -39,8 +40,12 @@ export default function RootLayout({
           <header className="p-4 border-b">
             <SignedOut>
               <div className="flex gap-4">
-                <SignInButton mode="modal" />
-                <SignUpButton mode="modal" />
+                <SignInButton mode="modal">
+                  <Button variant="default">Sign In</Button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <Button variant="outline">Sign Up</Button>
+                </SignUpButton>
               </div>
             </SignedOut>
             <SignedIn>
