@@ -1,0 +1,1 @@
+Switch to the master branch and pull the latest changes. then create a new branch called $ARGUMENTS

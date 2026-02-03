@@ -1,0 +1,1 @@
+commit any changes in the current branch and provide a suitable commit message based on the code changes. it should restrict when committing the changes directly to the master branch i.e. the master branch should always get the changes merged by the pull request rather than directly.

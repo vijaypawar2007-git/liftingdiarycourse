@@ -72,3 +72,24 @@ export async function getUserWorkoutsByDate(date: Date) {
 
   return result;
 }
+
+/**
+ * Create a new workout for a user
+ * @param userId - The user ID to create the workout for
+ * @param data - The workout data
+ */
+export async function createWorkoutForUser(
+  userId: string,
+  data: { name: string; startedAt: Date }
+) {
+  const result = await db
+    .insert(workouts)
+    .values({
+      userId,
+      name: data.name,
+      startedAt: data.startedAt,
+    })
+    .returning();
+
+  return result[0];
+}

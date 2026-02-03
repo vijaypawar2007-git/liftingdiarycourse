@@ -1,0 +1,1 @@
+push the current branch to the remote repository and create a pull request to merge the current branch into the master branch and resolve any issues off the back of that pull request. provide a suitable title for the pull request and summary of changes for the description of the pull request.

@@ -16,6 +16,8 @@ The `/docs` directory contains the source of truth for how features should be im
 
 - docs/ui.md
 - docs/data-fetching.md
+- docs/data-mutations.md
+- docs/auth.md
 
 ## Project Overview
 
