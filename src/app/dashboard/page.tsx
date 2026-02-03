@@ -1,4 +1,6 @@
+import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { formatDate, parseLocalDate, formatLocalDate } from '@/lib/date-utils';
 import { CalendarSelector } from '@/components/dashboard/calendar-selector';
 import { getUserWorkoutsByDate } from '@/data/workouts';
@@ -41,6 +43,11 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
               <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
                 Workouts for {formatDate(selectedDate)}
               </h2>
+              <Button asChild>
+                <Link href={`/dashboard/workout/new?date=${formatLocalDate(selectedDate)}`}>
+                  New Workout
+                </Link>
+              </Button>
             </div>
 
             {workouts.length > 0 ? (
@@ -83,6 +90,11 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                     <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
                       Start by adding your first workout for this date
                     </p>
+                    <Button asChild className="mt-4">
+                      <Link href={`/dashboard/workout/new?date=${formatLocalDate(selectedDate)}`}>
+                        Create New Workout
+                      </Link>
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
