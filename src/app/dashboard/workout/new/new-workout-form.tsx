@@ -76,7 +76,7 @@ export function NewWorkoutForm({ defaultDate }: NewWorkoutFormProps) {
       <div className="flex gap-4">
         <Button type="submit">Create Workout</Button>
         <Button type="button" variant="outline" asChild>
-          <Link href="/dashboard">Cancel</Link>
+          <Link href={`/dashboard?date=${defaultDate}`}>Cancel</Link>
         </Button>
       </div>
     </form>
