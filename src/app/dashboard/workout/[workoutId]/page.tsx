@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { EditWorkoutForm } from './edit-workout-form';
+import { WorkoutExercisesList } from './workout-exercises-list';
 import { getUserWorkoutById } from '@/data/workouts';
+import { getAllExercises } from '@/data/exercises';
 import { formatLocalDate } from '@/lib/date-utils';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +15,10 @@ interface EditWorkoutPageProps {
 export default async function EditWorkoutPage({ params }: EditWorkoutPageProps) {
   const { workoutId } = await params;
 
-  const workout = await getUserWorkoutById(workoutId);
+  const [workout, exercises] = await Promise.all([
+    getUserWorkoutById(workoutId),
+    getAllExercises(),
+  ]);
 
   if (!workout) {
     notFound();
@@ -46,6 +51,18 @@ export default async function EditWorkoutPage({ params }: EditWorkoutPageProps) 
               defaultName={workout.name ?? ''}
               defaultDate={dateString}
             />
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Exercises</CardTitle>
+            <CardDescription>
+              Manage exercises and sets for this workout
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <WorkoutExercisesList workout={workout} exercises={exercises} />
           </CardContent>
         </Card>
       </div>

@@ -80,7 +80,7 @@ export function EditWorkoutForm({ workoutId, defaultName, defaultDate }: EditWor
       <div className="flex gap-4">
         <Button type="submit">Save Changes</Button>
         <Button type="button" variant="outline" asChild>
-          <Link href="/dashboard">Cancel</Link>
+          <Link href={`/dashboard?date=${defaultDate}`}>Cancel</Link>
         </Button>
       </div>
     </form>

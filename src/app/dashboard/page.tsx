@@ -24,23 +24,19 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-black">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
-            Workout Dashboard
-          </h1>
-          <p className="mt-2 text-lg text-zinc-600 dark:text-zinc-400">
-            Track and manage your workouts
-          </p>
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+              Workout Dashboard
+            </h1>
+            <p className="mt-2 text-lg text-zinc-600 dark:text-zinc-400">
+              Track and manage your workouts
+            </p>
+          </div>
+          <CalendarSelector selectedDateString={formatLocalDate(selectedDate)} />
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
-          {/* Date Picker Section */}
-          <div className="lg:col-span-1">
-            <CalendarSelector selectedDateString={formatLocalDate(selectedDate)} />
-          </div>
-
-          {/* Workouts List Section */}
-          <div className="lg:col-span-2">
+        <div>
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
                 Workouts for {formatDate(selectedDate)}
@@ -98,7 +94,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
                 </CardContent>
               </Card>
             )}
-          </div>
         </div>
       </div>
     </div>

@@ -1,8 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Calendar } from '@/components/ui/calendar';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { CalendarIcon } from 'lucide-react';
 import { formatDate } from '@/lib/date-utils';
 
 interface CalendarSelectorProps {
@@ -20,6 +23,7 @@ function parseDateParamUTC(dateString: string): Date {
 
 export function CalendarSelector({ selectedDateString }: CalendarSelectorProps) {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
   // Parse the date string passed from the server component
   const selectedDate = parseDateParamUTC(selectedDateString);
@@ -34,26 +38,31 @@ export function CalendarSelector({ selectedDateString }: CalendarSelectorProps) 
       const dateString = `${year}-${month}-${day}`;
 
       router.push(`/dashboard?date=${dateString}`);
+      setIsOpen(false); // Close popover after selection
     }
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Select Date</CardTitle>
-        <CardDescription>
-          {formatDate(selectedDate)}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex justify-center">
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          className="w-[240px] justify-start text-left font-normal"
+          aria-label={`Select date, currently showing ${formatDate(selectedDate)}`}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          <span>{formatDate(selectedDate)}</span>
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start" sideOffset={4}>
         <Calendar
           mode="single"
           selected={selectedDate}
           onSelect={handleDateSelect}
           timeZone="UTC"
-          className="rounded-md border"
+          initialFocus
         />
-      </CardContent>
-    </Card>
+      </PopoverContent>
+    </Popover>
   );
 }
