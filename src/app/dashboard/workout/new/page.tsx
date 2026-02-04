@@ -2,6 +2,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { NewWorkoutForm } from './new-workout-form';
 import { formatLocalDate, parseLocalDate } from '@/lib/date-utils';
 
+export const dynamic = 'force-dynamic';
+
 interface NewWorkoutPageProps {
   searchParams: Promise<{ date?: string }>;
 }
